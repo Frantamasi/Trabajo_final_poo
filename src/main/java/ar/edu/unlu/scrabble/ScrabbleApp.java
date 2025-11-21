@@ -1,7 +1,15 @@
 package ar.edu.unlu.scrabble;
 
+import ar.edu.unlu.scrabble.modelo.Diccionario;
+import ar.edu.unlu.scrabble.modelo.Partida;
+
+import java.io.IOException;
+
 public class ScrabbleApp {
-    public static void main(String[] args) {
-    //partida, entrada al modelo y controlador
+    public static void main(String[] args) throws IOException {
+        Diccionario nuevoDiccionario = new Diccionario();
+
+        System.out.println(nuevoDiccionario.verificarPalabra(""));
     }
+
 }

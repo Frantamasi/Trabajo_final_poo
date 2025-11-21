@@ -112,7 +112,7 @@ public class Tablero {
      */
     public boolean getCasillero(int fila, int col) {
         if(fila >= 0 && fila < 15 && col >= 0 && col < 15){
-            if(tablero[fila][col] == null){
+            if(tablero[fila][col] == null){ //significa que el casillero esta vacio
                 return true;
             }
             else{

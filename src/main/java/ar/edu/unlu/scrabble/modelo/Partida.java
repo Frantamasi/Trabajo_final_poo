@@ -6,6 +6,7 @@ public class Partida {
     private Tablero tablero;
     private ArrayList<Jugador> jugadores = new ArrayList<>();
     private FichasTotales bolsaDeFichas;
+    private Diccionario diccionario;
     private int turnosSalteados;
 
     public void inicioPartida(){
