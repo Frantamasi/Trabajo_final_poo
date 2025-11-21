@@ -1,9 +1,27 @@
 package ar.edu.unlu.scrabble.modelo;
 
 public class Casillero {
-    protected Ficha casilla;
+    private TipoCasillero tipo;
+    private Ficha ficha;
 
-    public int getPuntaje(){
-        return casilla.getPuntaje();
+    public Casillero(TipoCasillero tipo){
+        this.ficha = null;
+        this.tipo = tipo;
+    }
+
+    public TipoCasillero getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoCasillero tipo) {
+        this.tipo = tipo;
+    }
+
+    public Ficha getCasilla() {
+        return ficha;
+    }
+
+    public void setCasilla(Ficha ficha) {
+        this.ficha = ficha;
     }
 }
