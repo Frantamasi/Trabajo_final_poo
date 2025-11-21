@@ -20,9 +20,10 @@ public class Diccionario {
      */
     public void cargarDiccionario() throws IOException {
         String palabra;
-        BufferedReader lector = new BufferedReader(new FileReader("diccionario.txt"));
-        while ((palabra = lector.readLine()) != null){
-            diccionario.add(palabra.trim().toUpperCase());  //agrega la palabra al diccionario
+        try(BufferedReader lector = new BufferedReader(new FileReader("diccionario.txt"))){ //utiliza el try
+            while ((palabra = lector.readLine()) != null){
+                diccionario.add(palabra.trim().toUpperCase());  //agrega la palabra al diccionario
+        }
         }
     }
 
