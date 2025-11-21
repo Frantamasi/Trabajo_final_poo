@@ -48,19 +48,5 @@ public class FichasTotales {
     }
 
 
-    //mover
-    /**
-     * si hay fichas disponles, agrega fichas al atril del jugador hasta que este llegue a 7 unidades
-     *
-     */
-    public void completarAtril(Jugador jugador) {
-        while(jugador.getAtril().size() <= 7){
-            if(getCantidadFichas() > 0){
-                jugador.getAtril().add(agarrarFicha());
-            }
-            else{
-                break;
-            }
-        }
-    }
+
 }

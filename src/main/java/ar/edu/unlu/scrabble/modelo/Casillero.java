@@ -17,11 +17,11 @@ public class Casillero {
         this.tipo = tipo;
     }
 
-    public Ficha getCasilla() {
+    public Ficha getFicha() {
         return ficha;
     }
 
-    public void setCasilla(Ficha ficha) {
+    public void setFicha(Ficha ficha) {
         this.ficha = ficha;
     }
 }

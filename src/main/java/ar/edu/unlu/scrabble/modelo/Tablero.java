@@ -103,4 +103,23 @@ public class Tablero {
         tablero[14][3] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
         tablero[14][11] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
     }
+
+    /**
+     *
+     * @param fila
+     * @param col
+     * @return
+     */
+    public boolean getCasillero(int fila, int col) {
+        if(fila >= 0 && fila < 15 && col >= 0 && col < 15){
+            if(tablero[fila][col] == null){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        return false;
+        //lanzar excepcion
+    }
 }
