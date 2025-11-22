@@ -8,12 +8,20 @@ public class FichasTotales {
     private List<Ficha> fichas = new ArrayList<>();
     private int cantidadFichas;
 
+    private static FichasTotales instancia = null;
+
+    public static FichasTotales getInstance() {
+        if(instancia == null){
+            instancia = new FichasTotales();
+        }
+        return instancia;
+    }
 
     /**
      * Por cada letra crea una cantidad de fichas especifica y la agrega a la lista
      * luego mezcla las fichas
      */
-    public FichasTotales(){
+    private FichasTotales(){
         for (int i = 0; i < 12; i++) fichas.add(new Ficha("A", 1)); for (int i = 0; i < 12; i++) fichas.add(new Ficha("E", 1));
         for (int i = 0; i < 9; i++)  fichas.add(new Ficha("O", 1)); for (int i = 0; i < 6; i++)  fichas.add(new Ficha("S", 1));
         for (int i = 0; i < 7; i++)  fichas.add(new Ficha("I", 1)); for (int i = 0; i < 7; i++)  fichas.add(new Ficha("U", 1));
@@ -34,10 +42,9 @@ public class FichasTotales {
         return cantidadFichas;
     }
 
-    public void setCantidadFichas(int cantidadFichas) {
-        this.cantidadFichas = cantidadFichas;
+    public boolean esVacia(){
+        return getCantidadFichas() == 0;
     }
-
     /**
      * Saca una ficha de la lista de fichas
      * @return retorna la primera ficha. en caso de no haber mas fichas, retorna null
@@ -46,7 +53,5 @@ public class FichasTotales {
         if(fichas.isEmpty()) return null;
         return fichas.removeFirst();
     }
-
-
 
 }

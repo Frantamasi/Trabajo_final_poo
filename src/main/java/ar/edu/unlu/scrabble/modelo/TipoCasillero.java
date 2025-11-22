@@ -13,5 +13,11 @@ public enum TipoCasillero {
         this.multiplicadorPalabra = multiplicadorPalabra;
     }
 
+    public int getMultiplicadorPalabra() {
+        return multiplicadorPalabra;
+    }
 
+    public int getMultiplicadorLetra() {
+        return multiplicadorLetra;
+    }
 }

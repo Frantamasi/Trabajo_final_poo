@@ -9,16 +9,22 @@ import java.util.Set;
 
 public class Diccionario {
     private Set<String> diccionario = new HashSet<>();
+    private static Diccionario instancia = null;
 
-    public Diccionario() throws IOException {
+
+    private Diccionario() throws IOException {
         cargarDiccionario();
     }
 
+    public static Diccionario getInstance() throws IOException {
+        if(instancia == null) instancia = new Diccionario();
+        return instancia;
+    }
     /**
      * carga el diccionario completo en el hashset
      * @throws IOException
      */
-    public void cargarDiccionario() throws IOException {
+    private void cargarDiccionario() throws IOException {
         String palabra;
         try(BufferedReader lector = new BufferedReader(new FileReader("src/diccionario/Diccionario_es.txt"))){ //utiliza el try
             while ((palabra = lector.readLine()) != null){

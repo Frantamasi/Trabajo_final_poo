@@ -7,9 +7,9 @@ import java.io.IOException;
 
 public class ScrabbleApp {
     public static void main(String[] args) throws IOException {
-        Diccionario nuevoDiccionario = new Diccionario();
 
-        System.out.println(nuevoDiccionario.verificarPalabra("HOLa"));
+
+
     }
 
 }

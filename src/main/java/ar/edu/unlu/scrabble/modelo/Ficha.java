@@ -10,6 +10,10 @@ public class Ficha {
         this.puntaje = puntaje;
     }
 
+    public String getLetra() {
+        return letra;
+    }
+
     public int getPuntaje() {
         return puntaje;
     }
