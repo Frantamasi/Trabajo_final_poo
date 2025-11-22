@@ -7,9 +7,10 @@ public class Casillero {
     private Ficha ficha;
     private Coordenada coordenada;
 
-    public Casillero(TipoCasillero tipo){
+    public Casillero(TipoCasillero tipo, Coordenada coordenada){
         this.ficha = null;
         this.tipo = tipo;
+        this.coordenada = coordenada;
     }
 
     public TipoCasillero getTipo() {
@@ -43,7 +44,7 @@ public class Casillero {
      *
      * @return obtiene la posicion del casillero en el tablero
      */
-    public List<Integer> getPosicion(){
-        return coordenada.getCordenada();
+    public Coordenada getPosicion(){
+        return coordenada;
     }
 }

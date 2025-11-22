@@ -2,9 +2,17 @@ package ar.edu.unlu.scrabble.modelo;
 
 public class Tablero {
     private Casillero[][] tablero = new Casillero[15][15];
+    private static Tablero instancia = null;
 
-    public Tablero(){
+    private Tablero(){
         inicializarTablero();
+    }
+
+    public static Tablero getInstance() {
+        if(instancia == null){
+            instancia = new Tablero();
+        }
+        return instancia;
     }
 
     public void inicializarTablero(){

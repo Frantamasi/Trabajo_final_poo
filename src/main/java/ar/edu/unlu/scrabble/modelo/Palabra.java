@@ -1,6 +1,9 @@
 package ar.edu.unlu.scrabble.modelo;
 
+import ar.edu.unlu.scrabble.exception.PalabraNoAlineada;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Palabra {
@@ -10,11 +13,53 @@ public class Palabra {
     private int puntaje = 0;
 
 
-    public Palabra(List<Casillero> casilleros, Orientacion orientacion){
+    public Palabra(List<Casillero> casilleros, Orientacion orientacion) throws PalabraNoAlineada{
         this.orientacion = orientacion;
-        for(Casillero casilla : casilleros){
-            addLetra(casilla);
+        try {
+            iniciar(casilleros);
+        } catch (PalabraNoAlineada e) {
+            throw new PalabraNoAlineada("La palabra ingresada no esta alineada");
         }
+    }
+
+    /**
+     * valida que la palabra este alineada en el tablero
+     * @param casilleros
+     */
+    private void iniciar(List<Casillero> casilleros) throws PalabraNoAlineada{
+        Casillero actual = null;
+        Iterator<Casillero> iterator = casilleros.iterator();
+        if(iterator.hasNext()){
+            actual = iterator.next();
+        }
+        while(iterator.hasNext()){
+            Casillero siguiente = iterator.next();
+            if(!validarSiguiente(actual,siguiente)){
+                throw new PalabraNoAlineada("La palabra ingresada no esta alineada");
+            }
+            addLetra(actual);
+            actual = siguiente;
+            if(!iterator.hasNext()){
+                addLetra(actual);
+            }
+        }
+    }
+
+    private boolean validarSiguiente(Casillero letra, Casillero letraSiguiente){
+        switch (orientacion){
+            case VERTICAL -> {  //si la posicion de la columna es la misma y la fila es la siguiente
+               return (letra.getPosicion().getValorColumna() == letraSiguiente.getPosicion().getValorColumna()) &&
+                        (letra.getPosicion().getValorFila() == (letraSiguiente.getPosicion().getValorFila()-1));
+            }
+            case HORIZONTAL -> {
+                return (letra.getPosicion().getValorFila() == letraSiguiente.getPosicion().getValorFila()) &&
+                        (letra.getPosicion().getValorColumna() == (letraSiguiente.getPosicion().getValorColumna()-1));
+            }
+            default -> {
+                return false;
+            }
+        }
+
     }
 
     private void addLetra(Casillero letra){
@@ -33,6 +78,8 @@ public class Palabra {
     public Orientacion getOrientacion() {
         return orientacion;
     }
+
+    public
 
     /**
      *

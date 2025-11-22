@@ -1,8 +1,5 @@
 package ar.edu.unlu.scrabble.modelo;
 
-import java.util.List;
-import java.util.ArrayList;
-
 public class Coordenada {
     int fila;
     int columna;
@@ -12,18 +9,11 @@ public class Coordenada {
         this.columna = columna;
     }
 
-    public List<Integer> getCordenada(){
-        ArrayList<Integer> coordenadas = new ArrayList<>();
-        coordenadas.add(getFila());
-        coordenadas.add(getColumna());
-        return coordenadas;
-    }
-
-    public int getFila(){
+    public int getValorFila(){
         return fila;
     }
 
-    public int getColumna(){
+    public int getValorColumna(){
         return columna;
     }
 }
