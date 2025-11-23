@@ -16,6 +16,7 @@ public class Partida {
 
     public Partida(){
         manejadorTurno = new ManejadorTurno();
+
     }
     public void jugarPalabra(Map<Integer,List<Integer>> jugada, Orientacion orientacion){
 
@@ -62,7 +63,9 @@ public class Partida {
 
     public void agregarJugador(String nombre){
         try{
-            manejadorTurno.addJugador(new Jugador(nombre));
+            Jugador jugador = new Jugador(nombre);
+            manejadorTurno.addJugador(jugador);
+            ManejadorJugadores.getInstance().addJugador(jugador);
         } catch (RuntimeException e) {
             throw new MaximaCantidadJugadores(e.getMessage());
         }
@@ -82,6 +85,10 @@ public class Partida {
     }
 
     public List<IFicha> verAtrilJugador(String nombre){
+        return ManejadorJugadores.getInstance().getJugador(nombre).consultarAtril();
+    }
 
+    public int verPuntajeJugador(String nombre){
+        return  ManejadorJugadores.getInstance().getJugador(nombre).getPuntaje();
     }
 }

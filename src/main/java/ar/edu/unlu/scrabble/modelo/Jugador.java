@@ -1,5 +1,7 @@
 package ar.edu.unlu.scrabble.modelo;
 
+import ar.edu.unlu.scrabble.Interfaces.IFicha;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,11 +41,11 @@ public class Jugador {
         }
     }
 
-    public List<String> consultarAtril(){
-        List<String> valoresAtril = new ArrayList<>();
-        for(Ficha ficha : atril){
-            valoresAtril.add(ficha.getLetra());
-        }
+    public List<IFicha> consultarAtril(){
+        List<IFicha> valoresAtril = new ArrayList<>();
+        atril.forEach((ficha)->{
+            valoresAtril.add(ficha);
+        });
         return valoresAtril;
     }
 

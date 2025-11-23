@@ -1,5 +1,7 @@
 package ar.edu.unlu.scrabble.modelo;
 
+import ar.edu.unlu.scrabble.exception.JugadorNoEncontrado;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +16,12 @@ public class ManejadorJugadores {
         return instancia;
     }
 
+    public Jugador getJugador(String nombre){
+        if(!jugadores.containsKey(nombre)){
+            throw new JugadorNoEncontrado("El jugador "+nombre + " no se encuentra en la lista de jugadores");
+        }
+        return jugadores.get(nombre);
+    }
 
     public void addJugador(Jugador jugador){
         jugadores.put(jugador.getNombre(),jugador);
