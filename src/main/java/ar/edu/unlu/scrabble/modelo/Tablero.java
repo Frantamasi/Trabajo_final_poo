@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tablero implements ITableroPublico {
-    private Casillero[][] casilleros = new Casillero[15][15];
+    private ICasillero[][] casilleros = new Casillero[15][15];
     private static Tablero instancia = null;
 
     private Tablero(){
@@ -134,6 +134,13 @@ public class Tablero implements ITableroPublico {
         return casilleros[coordenada.getValorFila()][coordenada.getValorColumna()];
     }
 
+    public void setCasilleros(List<ICasillero> casilleros){
+        casilleros.forEach((casillero)->{
+            ICoordenada coordenada = casillero.getPosicion();
+            this.casilleros[coordenada.getValorFila()][coordenada.getValorColumna()] = casillero;
+        });
+    }
+
     /**
      * dada una coordena y una orientacion, va a buscar la palabra que se encuentre en dicha cooredenada
      * @param coordenada
@@ -225,6 +232,8 @@ public class Tablero implements ITableroPublico {
     public TipoCasillero getTipoCasillero(ICoordenada coordenada){
         return casilleros[coordenada.getValorFila()][coordenada.getValorColumna()].getTipo();
     }
+
+
 
     public Palabra palabraFormada(List<ICasillero> posibleJugada, Orientacion orientacion){
         for(ICasillero casillero : posibleJugada){

@@ -29,7 +29,7 @@ public class Diccionario {
         try(BufferedReader lector = new BufferedReader(new FileReader("src/diccionario/Diccionario_es.txt"))){ //utiliza el try
             while ((palabra = lector.readLine()) != null){
                 diccionario.add(palabra.trim().toUpperCase());  //agrega la palabra al diccionario
-        }
+            }
         }
     }
 

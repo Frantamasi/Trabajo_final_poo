@@ -39,6 +39,10 @@ public class Partida {
         if(!formadorPalabras.formarPalabras(palabra).validar()){
             throw new JugadaInvalida("Las palabras formadas no se encuentran en el diccionario");
         }
+
+        tablero.setCasilleros(casillerosAUtilizar); //introduce las fichas al tablero
+        //TODO: Lanzar evento de atril completado
+        jugador.completarAtril(BolsaDeFichas.getInstance());
         int puntaje = formadorPalabras.getPuntaje();
         jugador.sumarPuntos(puntaje);
 
@@ -77,4 +81,7 @@ public class Partida {
         return Tablero.getInstance();
     }
 
+    public List<IFicha> verAtrilJugador(String nombre){
+
+    }
 }

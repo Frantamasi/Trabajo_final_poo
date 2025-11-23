@@ -55,13 +55,14 @@ public class FormadorPalabras {
         try{
             diccionario = Diccionario.getInstance();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            return false;
         }
         for(Palabra palabra : palabrasFormadas){
             if(!diccionario.verificarPalabra(palabra.toString())){
                 return false;
             }
         }
+
         return true;
     }
 
