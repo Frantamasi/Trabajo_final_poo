@@ -18,6 +18,29 @@ public class FormadorPalabras {
         palabrasFormadas.clear();
         palabraJugada = palabra;
 
+        List<Coordenada> coordenadas = palabraJugada.getListaCoordenadas();
+        Orientacion orientacion = palabraJugada.getOrientacion();
+        Tablero tablero = Tablero.getInstance();
+
+        for(Coordenada coordenada : coordenadas){
+            switch (orientacion){
+                case VERTICAL ->{
+                    if(tablero.casilleroOcupado(tablero.getColumnaAnterior(coordenada))
+                            || tablero.casilleroOcupado(tablero.getColumnaSiguiente(coordenada))){   //si el casillero de la izquierda o derecha esta ocupado
+                        palabrasFormadas.add(tablero.getPalabra(coordenada, Orientacion.HORIZONTAL));
+                    }
+                }
+                case HORIZONTAL -> {
+                    if(tablero.casilleroOcupado(tablero.getFilaAnterior(coordenada))
+                            || tablero.casilleroOcupado(tablero.getFilaSiguiente(coordenada))){   //si el casillero de la izquierda o derecha esta ocupado
+                        palabrasFormadas.add(tablero.getPalabra(coordenada, Orientacion.VERTICAL));
+                    }
+                }
+                default -> {
+                    break;  //exception falta de horientacion sexcual TODO
+                }
+            }
+        }
 
         return this;
     }

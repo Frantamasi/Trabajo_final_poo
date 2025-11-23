@@ -1,7 +1,12 @@
 package ar.edu.unlu.scrabble.modelo;
 
+import ar.edu.unlu.scrabble.exception.CoordenadaInvalida;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Tablero {
-    private Casillero[][] tablero = new Casillero[15][15];
+    private Casillero[][] casilleros = new Casillero[15][15];
     private static Tablero instancia = null;
 
     private Tablero(){
@@ -19,7 +24,7 @@ public class Tablero {
         //llenar el tablero de casilleros vacios
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
-                tablero[i][j] = new Casillero(TipoCasillero.PUNTAJE_NORMAL);
+                casilleros[i][j] = new Casillero(TipoCasillero.PUNTAJE_NORMAL,new Coordenada(i,j));
             }
         }
         //pabalabras tiples
@@ -32,102 +37,184 @@ public class Tablero {
         casillaLetraDoble();
     }
     public void casillaPalabraTriple(){
-        tablero[0][0] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_PALABRA);
-        tablero[0][7] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_PALABRA);
-        tablero[0][14] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_PALABRA);
-        tablero[7][0] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_PALABRA);
-        tablero[7][14] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_PALABRA);
-        tablero[14][0] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_PALABRA);
-        tablero[14][7] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_PALABRA);
-        tablero[14][14] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_PALABRA);
+        casilleros[0][0] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_PALABRA,new Coordenada(0,0));
+        casilleros[0][7] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_PALABRA,new Coordenada(0,7));
+        casilleros[0][14] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_PALABRA,new Coordenada(0,14));
+        casilleros[7][0] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_PALABRA,new Coordenada(7,0));
+        casilleros[7][14] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_PALABRA,new Coordenada(7,14));
+        casilleros[14][0] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_PALABRA,new Coordenada(14,0));
+        casilleros[14][7] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_PALABRA,new Coordenada(14,7));
+        casilleros[14][14] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_PALABRA,new Coordenada(14,14));
     }
     public void casillaPalabraDoble(){
         for (int i = 1; i < 5; i++) {   //superior izquierda
-            tablero[i][i] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_PALABRA);
+            casilleros[i][i] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_PALABRA,new Coordenada(i,i));
         }
         for (int i = 13; i > 9; i--) {  //inferior derecha
-            tablero[i][i] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_PALABRA);
+            casilleros[i][i] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_PALABRA,new Coordenada(i,i));
         }
         int j = 13;
         for (int i = 1; i < 5; i++) {   //superior derecha
-            tablero[i][j] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_PALABRA);
+            casilleros[i][j] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_PALABRA,new Coordenada(i,j));
             j--;
         }
         j = 13;
         for (int i = 1; i < 5; i++) {   //inferior izquierda
-            tablero[j][i] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_PALABRA);
+            casilleros[j][i] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_PALABRA,new Coordenada(j,i));
             j--;
         }
     }
     public void casillaLetraTriple(){
-        tablero[1][5] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA);
-        tablero[1][9] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA);
+        casilleros[1][5] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA,new Coordenada(1,5));
+        casilleros[1][9] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA,new Coordenada(1,9));
         //
-        tablero[5][1] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA);
-        tablero[5][5] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA);
-        tablero[5][9] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA);
-        tablero[5][13] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA);
+        casilleros[5][1] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA,new Coordenada(5,1));
+        casilleros[5][5] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA,new Coordenada(5,5));
+        casilleros[5][9] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA,new Coordenada(5,9));
+        casilleros[5][13] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA,new Coordenada(5,13));
         //
-        tablero[9][1] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA);
-        tablero[9][5] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA);
-        tablero[9][9] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA);
-        tablero[9][13] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA);
+        casilleros[9][1] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA,new Coordenada(9,1));
+        casilleros[9][5] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA,new Coordenada(9,5));
+        casilleros[9][9] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA,new Coordenada(9,9));
+        casilleros[9][13] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA,new Coordenada(9,13));
         //
-        tablero[13][5] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA);
-        tablero[13][9] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA);
+        casilleros[13][5] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA,new Coordenada(13,5));
+        casilleros[13][9] = new Casillero(TipoCasillero.PUNTAJE_TRIPLE_LETRA,new Coordenada(13,9));
     }
     public void casillaLetraDoble(){
 
-        tablero[0][3] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
-        tablero[0][11] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
+        casilleros[0][3] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(0,3));
+        casilleros[0][11] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(0,11));
         //
-        tablero[2][6] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
-        tablero[2][8] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
+        casilleros[2][6] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(2,6));
+        casilleros[2][8] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(2,8));
         //
-        tablero[3][0] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
-        tablero[3][7] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
-        tablero[3][14] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
+        casilleros[3][0] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(3,0));
+        casilleros[3][7] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(3,7));
+        casilleros[3][14] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(3,14));
         //
-        tablero[6][2] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
-        tablero[6][6] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
-        tablero[6][8] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
-        tablero[6][12] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
+        casilleros[6][2] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(6,2));
+        casilleros[6][6] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(6,6));
+        casilleros[6][8] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(6,8));
+        casilleros[6][12] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(6,12));
         //
-        tablero[7][3] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
-        tablero[7][11] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
+        casilleros[7][3] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(7,3));
+        casilleros[7][11] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(7,11));
         //
-        tablero[8][2] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
-        tablero[8][6] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
-        tablero[8][8] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
-        tablero[8][12] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
+        casilleros[8][2] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(8,2));
+        casilleros[8][6] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(8,6));
+        casilleros[8][8] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(8,8));
+        casilleros[8][12] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(8,12));
         //
-        tablero[11][0] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
-        tablero[11][7] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
-        tablero[11][14] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
+        casilleros[11][0] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(11,0));
+        casilleros[11][7] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(11,7));
+        casilleros[11][14] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(11,14));
         //
-        tablero[12][6] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
-        tablero[12][8] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
+        casilleros[12][6] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(12,6));
+        casilleros[12][8] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(12,8));
         //
-        tablero[14][3] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
-        tablero[14][11] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA);
+        casilleros[14][3] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(14,3));
+        casilleros[14][11] = new Casillero(TipoCasillero.PUNTAJE_DOBLE_LETRA,new Coordenada(14,11));
     }
 
     /**
      *
-     * @param fila
-     * @param col
+     * @param
+     * @param
      * @return
      */
-    public boolean getCasillero(int fila, int col) {
-        if(fila >= 0 && fila < 15 && col >= 0 && col < 15){
-            if(tablero[fila][col] == null){ //significa que el casillero esta vacio
-                return true;
+    public Casillero getCasillero(Coordenada coordenada) {
+        return casilleros[coordenada.getValorFila()][coordenada.getValorColumna()];
+    }
+
+    /**
+     * dada una coordena y una orientacion, va a buscar la palabra que se encuentre en dicha cooredenada
+     * @param coordenada
+     * @param orientacion
+     * @return palabra en el tablero
+     */
+    public Palabra getPalabra(Coordenada coordenada, Orientacion orientacion) {
+        //tal casilla y tal orientacion
+        List<Casillero> casilleros = new ArrayList<>();
+        Coordenada coordenadaActual = coordenada;
+        Coordenada coordenadaAnterior = coordenada; //ultima coordenada que tiene una ficha
+        switch (orientacion) {
+            case VERTICAL -> {
+                while (Coordenada.coordenadaExiste(coordenadaActual)) {   //verificamos que la instancia de la coordenada exista
+                    coordenadaAnterior = coordenadaActual;
+                    coordenadaActual = this.getFilaAnterior(coordenadaActual);
+                }
+                coordenadaActual = coordenadaAnterior;
+                while (Coordenada.coordenadaExiste(coordenadaActual)) {   //baja hasta la ultima ficha
+                    //coordenadaAnterior = coordenadaActual;
+                    casilleros.add(this.getCasillero(coordenadaActual));    //almacenamos los casilleros
+                    coordenadaActual = this.getFilaSiguiente(coordenadaActual);
+                }
+                return new Palabra(casilleros, Orientacion.VERTICAL);
             }
-            else{
-                return false;
+            case HORIZONTAL -> {
+                while (Coordenada.coordenadaExiste(coordenadaActual)) {   //verificamos que la instancia de la coordenada exista
+                    coordenadaAnterior = coordenadaActual;
+                    coordenadaActual = this.getColumnaAnterior(coordenadaActual);
+                }
+                coordenadaActual = coordenadaAnterior;
+                while (Coordenada.coordenadaExiste(coordenadaActual)) {   //baja hasta la ultima ficha
+                    //coordenadaAnterior = coordenadaActual;
+                    casilleros.add(this.getCasillero(coordenadaActual));    //almacenamos los casilleros
+                    coordenadaActual = this.getColumnaSiguiente(coordenadaActual);
+                }
+                return new Palabra(casilleros, Orientacion.HORIZONTAL);
+            }
+            default -> {
+                return null;
             }
         }
-        return false;
-        //lanzar excepcion
     }
+
+    public boolean casilleroOcupado(Coordenada coordenada){
+        return casilleros[coordenada.getValorFila()][coordenada.getValorColumna()].estaOcupado();
+    }
+
+    public Coordenada getFilaAnterior(Coordenada coordenada){
+        Coordenada nuevaCoordenada = null;
+        try{
+            nuevaCoordenada = new Coordenada(coordenada.getValorFila()-1,coordenada.getValorColumna());
+        }
+        catch (CoordenadaInvalida _){
+        }
+        return nuevaCoordenada;
+    }
+
+    public Coordenada getFilaSiguiente(Coordenada coordenada){
+        Coordenada nuevaCoordenada = null;
+        try{
+            nuevaCoordenada = new Coordenada(coordenada.getValorFila()+1,coordenada.getValorColumna());
+        }
+        catch (CoordenadaInvalida _){
+        }
+        return nuevaCoordenada;
+    }
+
+    public Coordenada getColumnaAnterior(Coordenada coordenada){
+        Coordenada nuevaCoordenada = null;
+        try{
+            nuevaCoordenada = new Coordenada(coordenada.getValorFila(),coordenada.getValorColumna()-1);
+        }
+        catch (CoordenadaInvalida _){
+        }
+        return nuevaCoordenada;
+    }
+
+    public Coordenada getColumnaSiguiente(Coordenada coordenada){
+        Coordenada nuevaCoordenada = null;
+        try{
+            nuevaCoordenada = new Coordenada(coordenada.getValorFila(),coordenada.getValorColumna()+1);
+        }
+        catch (CoordenadaInvalida _){
+        }
+        return nuevaCoordenada;
+    }
+
+
+
 }

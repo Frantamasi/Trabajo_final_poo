@@ -47,4 +47,8 @@ public class Casillero {
     public Coordenada getPosicion(){
         return coordenada;
     }
+
+    public boolean estaOcupado(){
+        return ficha == null;
+    }
 }

@@ -79,7 +79,13 @@ public class Palabra {
         return orientacion;
     }
 
-    public
+    public List<Coordenada> getListaCoordenadas(){
+        List<Coordenada> coordenadas = new ArrayList<>();
+        for(Casillero letra : letras){
+            coordenadas.add(letra.getPosicion());
+        }
+        return coordenadas;
+    }
 
     /**
      *
