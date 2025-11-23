@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class FichasTotales {
+public class BolsaDeFichas {
     private List<Ficha> fichas = new ArrayList<>();
     private int cantidadFichas;
 
-    private static FichasTotales instancia = null;
+    private static BolsaDeFichas instancia = null;
 
-    public static FichasTotales getInstance() {
+    public static BolsaDeFichas getInstance() {
         if(instancia == null){
-            instancia = new FichasTotales();
+            instancia = new BolsaDeFichas();
         }
         return instancia;
     }
@@ -21,7 +21,7 @@ public class FichasTotales {
      * Por cada letra crea una cantidad de fichas especifica y la agrega a la lista
      * luego mezcla las fichas
      */
-    private FichasTotales(){
+    private BolsaDeFichas(){
         for (int i = 0; i < 12; i++) fichas.add(new Ficha("A", 1)); for (int i = 0; i < 12; i++) fichas.add(new Ficha("E", 1));
         for (int i = 0; i < 9; i++)  fichas.add(new Ficha("O", 1)); for (int i = 0; i < 6; i++)  fichas.add(new Ficha("S", 1));
         for (int i = 0; i < 7; i++)  fichas.add(new Ficha("I", 1)); for (int i = 0; i < 7; i++)  fichas.add(new Ficha("U", 1));

@@ -1,5 +1,7 @@
 package ar.edu.unlu.scrabble.modelo;
 
+import ar.edu.unlu.scrabble.Interfaces.ICoordenada;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
@@ -24,11 +26,11 @@ public class FormadorPalabras {
         palabrasFormadas.clear();
         palabraJugada = palabra;
 
-        List<Coordenada> coordenadas = palabraJugada.getListaCoordenadas();
+        List<ICoordenada> coordenadas = palabraJugada.getListaCoordenadas();
         Orientacion orientacion = palabraJugada.getOrientacion();
         Tablero tablero = Tablero.getInstance();
 
-        for(Coordenada coordenada : coordenadas){
+        for(ICoordenada coordenada : coordenadas){
             switch (orientacion){
                 case VERTICAL ->{
                     if(tablero.casilleroOcupado(tablero.getColumnaAnterior(coordenada))

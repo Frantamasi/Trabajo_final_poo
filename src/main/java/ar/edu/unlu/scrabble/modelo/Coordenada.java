@@ -1,8 +1,9 @@
 package ar.edu.unlu.scrabble.modelo;
 
+import ar.edu.unlu.scrabble.Interfaces.ICoordenada;
 import ar.edu.unlu.scrabble.exception.CoordenadaInvalida;
 
-public class Coordenada {
+public class Coordenada implements ICoordenada {
     int fila;
     int columna;
 
@@ -27,7 +28,7 @@ public class Coordenada {
      * @param coordenada
      * @return
      */
-    public static boolean coordenadaExiste(Coordenada coordenada){
+    public static boolean coordenadaExiste(ICoordenada coordenada){
         return coordenada != null;
     }
 

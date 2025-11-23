@@ -1,11 +1,15 @@
 package ar.edu.unlu.scrabble.modelo;
 
+import ar.edu.unlu.scrabble.Interfaces.ICasillero;
+import ar.edu.unlu.scrabble.Interfaces.ICoordenada;
+import ar.edu.unlu.scrabble.Interfaces.IFicha;
+
 import java.util.List;
 
-public class Casillero {
+public class Casillero implements ICasillero {
     private TipoCasillero tipo;
-    private Ficha ficha;
-    private Coordenada coordenada;
+    private IFicha ficha;
+    private ICoordenada coordenada;
 
     public Casillero(TipoCasillero tipo, Coordenada coordenada){
         this.ficha = null;
@@ -21,11 +25,11 @@ public class Casillero {
         this.tipo = tipo;
     }
 
-    public Ficha getFicha() {
+    public IFicha getFicha() {
         return ficha;
     }
 
-    public void setFicha(Ficha ficha) {
+    public void setFicha(IFicha ficha) {
         this.ficha = ficha;
     }
 
@@ -44,7 +48,7 @@ public class Casillero {
      *
      * @return obtiene la posicion del casillero en el tablero
      */
-    public Coordenada getPosicion(){
+    public ICoordenada getPosicion(){
         return coordenada;
     }
 

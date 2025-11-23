@@ -1,6 +1,13 @@
 package ar.edu.unlu.scrabble.modelo;
 
+import ar.edu.unlu.scrabble.Interfaces.ICasillero;
+import ar.edu.unlu.scrabble.Interfaces.IFicha;
+import ar.edu.unlu.scrabble.Interfaces.ITableroPublico;
+import ar.edu.unlu.scrabble.exception.JugadaInvalida;
+import ar.edu.unlu.scrabble.exception.MaximaCantidadJugadores;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,16 +17,64 @@ public class Partida {
     public Partida(){
         manejadorTurno = new ManejadorTurno();
     }
-    public void jugarPalabra(Map<Integer,List<Integer>> jugada){
+    public void jugarPalabra(Map<Integer,List<Integer>> jugada, Orientacion orientacion){
 
         Tablero tablero = Tablero.getInstance();
         Jugador jugador = manejadorTurno.getJugadorTurno();
-        List<Ficha> jugadaDeFichas = jugador.jugar(jugada.keySet().stream().toList());
 
-        List<Coordenada> coordenadasJugadas = jugada.values().stream().map((posiciones)->{
-            return new Coordenada(posiciones.removeFirst().intValue(), posiciones.removeFirst().intValue());
+        List<ICasillero> casillerosAUtilizar = jugada.entrySet().stream().map((entrada) -> {
+            IFicha ficha = jugador.jugar(entrada.getKey().intValue());
+            List<Integer> posiciones = entrada.getValue();
+            int fila = posiciones.removeFirst().intValue();
+            int columna = posiciones.removeFirst().intValue();
+            Coordenada coordenada = new Coordenada(fila, columna);
+            ICasillero casillero = new Casillero(tablero.getTipoCasillero(coordenada),coordenada);
+            casillero.setFicha(ficha);
+            return casillero;
         }).toList();
 
-        //List<Casillero> casillerosAUtilizar =
+        Palabra palabra = tablero.palabraFormada(casillerosAUtilizar, orientacion);
+        FormadorPalabras formadorPalabras = FormadorPalabras.getInstance();
+
+        if(!formadorPalabras.formarPalabras(palabra).validar()){
+            throw new JugadaInvalida("Las palabras formadas no se encuentran en el diccionario");
+        }
+        int puntaje = formadorPalabras.getPuntaje();
+        jugador.sumarPuntos(puntaje);
+
+        manejadorTurno.jugarTurno();
+        if (manejadorTurno.juegoTermino()){
+            //TODO: notificar q termino el juego
+
+        }
     }
+
+    public void pasar(){
+        manejadorTurno.pasarTurno();
+        if (manejadorTurno.juegoTermino()){
+            //TODO: notificar q termino el juego
+        }
+    }
+
+    public void agregarJugador(String nombre){
+        try{
+            manejadorTurno.addJugador(new Jugador(nombre));
+        } catch (RuntimeException e) {
+            throw new MaximaCantidadJugadores(e.getMessage());
+        }
+    }
+
+    public Map<String,Integer> getResultadoFinal(){
+        List<Jugador> listaJugadores = manejadorTurno.getTodosLosJugadores();
+        Map<String, Integer> resultados = new HashMap<>();
+        listaJugadores.forEach((jugador)->{
+            resultados.put(jugador.getNombre(), jugador.getPuntajeFinal());
+        });
+        return resultados;
+    }
+
+    public ITableroPublico verTablero(){
+        return Tablero.getInstance();
+    }
+
 }

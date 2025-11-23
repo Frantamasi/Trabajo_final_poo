@@ -1,6 +1,8 @@
 package ar.edu.unlu.scrabble.modelo;
 
-public class Ficha {
+import ar.edu.unlu.scrabble.Interfaces.IFicha;
+
+public class Ficha implements IFicha {
     private String letra;
     private int puntaje;
 

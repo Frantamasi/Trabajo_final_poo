@@ -1,5 +1,7 @@
 package ar.edu.unlu.scrabble.modelo;
 
+import ar.edu.unlu.scrabble.Interfaces.ICasillero;
+import ar.edu.unlu.scrabble.Interfaces.ICoordenada;
 import ar.edu.unlu.scrabble.exception.PalabraNoAlineada;
 
 import java.util.ArrayList;
@@ -7,13 +9,13 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Palabra {
-    private List<Casillero> letras = new ArrayList<>();
+    private List<ICasillero> letras = new ArrayList<>();
     private Orientacion orientacion;
     private int multiplicador = 1;
     private int puntaje = 0;
 
 
-    public Palabra(List<Casillero> casilleros, Orientacion orientacion) throws PalabraNoAlineada{
+    public Palabra(List<ICasillero> casilleros, Orientacion orientacion) throws PalabraNoAlineada{
         this.orientacion = orientacion;
         try {
             iniciar(casilleros);
@@ -26,14 +28,14 @@ public class Palabra {
      * valida que la palabra este alineada en el tablero
      * @param casilleros
      */
-    private void iniciar(List<Casillero> casilleros) throws PalabraNoAlineada{
-        Casillero actual = null;
-        Iterator<Casillero> iterator = casilleros.iterator();
+    private void iniciar(List<ICasillero> casilleros) throws PalabraNoAlineada{
+        ICasillero actual = null;
+        Iterator<ICasillero> iterator = casilleros.iterator();
         if(iterator.hasNext()){
             actual = iterator.next();
         }
         while(iterator.hasNext()){
-            Casillero siguiente = iterator.next();
+            ICasillero siguiente = iterator.next();
             if(!validarSiguiente(actual,siguiente)){
                 throw new PalabraNoAlineada("La palabra ingresada no esta alineada");
             }
@@ -45,7 +47,13 @@ public class Palabra {
         }
     }
 
-    private boolean validarSiguiente(Casillero letra, Casillero letraSiguiente){
+    /**
+     * valida que la posicion del siguiente casillero dependiendo su orientacion, coincida con la del casillero anterior
+     * @param letra
+     * @param letraSiguiente
+     * @return
+     */
+    private boolean validarSiguiente(ICasillero letra, ICasillero letraSiguiente){
         switch (orientacion){
             case VERTICAL -> {  //si la posicion de la columna es la misma y la fila es la siguiente
                return (letra.getPosicion().getValorColumna() == letraSiguiente.getPosicion().getValorColumna()) &&
@@ -62,7 +70,7 @@ public class Palabra {
 
     }
 
-    private void addLetra(Casillero letra){
+    private void addLetra(ICasillero letra){
         puntaje += letra.getPuntajeCasillero();  //suma puntaje de la letra
         multiplicador *= letra.getMultiplicadorPalabra();
         letras.add(letra);
@@ -79,9 +87,9 @@ public class Palabra {
         return orientacion;
     }
 
-    public List<Coordenada> getListaCoordenadas(){
-        List<Coordenada> coordenadas = new ArrayList<>();
-        for(Casillero letra : letras){
+    public List<ICoordenada> getListaCoordenadas(){
+        List<ICoordenada> coordenadas = new ArrayList<>();
+        for(ICasillero letra : letras){
             coordenadas.add(letra.getPosicion());
         }
         return coordenadas;
@@ -94,7 +102,7 @@ public class Palabra {
     @Override
     public String toString() {
         StringBuilder palabra = new StringBuilder();
-        for(Casillero casillero : letras){
+        for(ICasillero casillero : letras){
             palabra.append(casillero.getFicha().getLetra());
         }
         return palabra.toString();
