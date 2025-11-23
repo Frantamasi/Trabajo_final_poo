@@ -1,5 +1,6 @@
 package ar.edu.unlu.scrabble.modelo;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -14,6 +15,11 @@ public class FormadorPalabras {
     }
     private FormadorPalabras(){}
 
+    /**
+     * dada una palabra candidata obtiene todas las palabras formada en la posible jugada
+     * @param palabra
+     * @return this para generar una concatenacion de llamada de metodos
+     */
     public FormadorPalabras formarPalabras(Palabra palabra){
         palabrasFormadas.clear();
         palabraJugada = palabra;
@@ -36,16 +42,24 @@ public class FormadorPalabras {
                         palabrasFormadas.add(tablero.getPalabra(coordenada, Orientacion.VERTICAL));
                     }
                 }
-                default -> {
-                    break;  //exception falta de horientacion sexcual TODO
-                }
             }
         }
-
         return this;
     }
 
-    public boolean validar(Palabra palabra){
+    public boolean validar(){
+        if(palabrasFormadas.isEmpty()) return false;
+        Diccionario diccionario = null;
+        try{
+            diccionario = Diccionario.getInstance();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        for(Palabra palabra : palabrasFormadas){
+            if(!diccionario.verificarPalabra(palabra.toString())){
+                return false;
+            }
+        }
         return true;
     }
 

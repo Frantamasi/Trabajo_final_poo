@@ -1,5 +1,7 @@
 package ar.edu.unlu.scrabble.modelo;
 
+import ar.edu.unlu.scrabble.exception.MaximaCantidadJugadores;
+
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.List;
@@ -8,9 +10,8 @@ public class ManejadorTurno {
     private Queue<Jugador> jugadores = new LinkedList<>();
     private int turnosPasadosConsecutivos; //encargada de finalizar la partida si se pasa 3 veces seguidas
     private Jugador ultimoJugador;
-
-        public ManejadorTurno(List<Jugador> listaJugadores) {
-            jugadores.addAll(listaJugadores);
+    private final int JUGADORES_MAX = 4;
+        public ManejadorTurno() {
             turnosPasadosConsecutivos = 0;
         }
 
@@ -50,4 +51,10 @@ public class ManejadorTurno {
             return jugadores.peek();
         }
 
+        public void addJugador(Jugador jugador){
+            if(jugadores.size() >= JUGADORES_MAX){
+                throw new MaximaCantidadJugadores("Se ha alcanzado la maxima cantidad de jugadores");
+            }
+            jugadores.add(jugador);
+        }
     }

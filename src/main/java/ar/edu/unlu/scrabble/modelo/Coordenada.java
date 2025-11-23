@@ -30,5 +30,5 @@ public class Coordenada {
     public static boolean coordenadaExiste(Coordenada coordenada){
         return coordenada != null;
     }
-    //TODO implementar crear coordeanas validas isvalid
+
 }

@@ -1,20 +1,25 @@
 package ar.edu.unlu.scrabble.modelo;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class Partida {
-    private Tablero tablero;
-    private ArrayList<Jugador> jugadores = new ArrayList<>();
-    private FichasTotales bolsaDeFichas;
-    private Diccionario diccionario;
-    private int turnosSalteados;
+    private ManejadorTurno manejadorTurno;
 
-    public void inicioPartida(){
-
+    public Partida(){
+        manejadorTurno = new ManejadorTurno();
     }
-    public void agregarJugadores(){
+    public void jugarPalabra(Map<Integer,List<Integer>> jugada){
 
+        Tablero tablero = Tablero.getInstance();
+        Jugador jugador = manejadorTurno.getJugadorTurno();
+        List<Ficha> jugadaDeFichas = jugador.jugar(jugada.keySet().stream().toList());
+
+        List<Coordenada> coordenadasJugadas = jugada.values().stream().map((posiciones)->{
+            return new Coordenada(posiciones.removeFirst().intValue(), posiciones.removeFirst().intValue());
+        }).toList();
+
+        //List<Casillero> casillerosAUtilizar =
     }
-
-
 }

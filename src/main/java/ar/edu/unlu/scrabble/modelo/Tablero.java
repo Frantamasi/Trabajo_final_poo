@@ -1,5 +1,6 @@
 package ar.edu.unlu.scrabble.modelo;
 
+import ar.edu.unlu.scrabble.exception.CasilleroOcupado;
 import ar.edu.unlu.scrabble.exception.CoordenadaInvalida;
 
 import java.util.ArrayList;
@@ -140,12 +141,12 @@ public class Tablero {
         Coordenada coordenadaAnterior = coordenada; //ultima coordenada que tiene una ficha
         switch (orientacion) {
             case VERTICAL -> {
-                while (Coordenada.coordenadaExiste(coordenadaActual)) {   //verificamos que la instancia de la coordenada exista
+                while (Coordenada.coordenadaExiste(coordenadaActual) && casilleroOcupado(coordenadaActual)) {   //verificamos que la instancia de la coordenada exista
                     coordenadaAnterior = coordenadaActual;
                     coordenadaActual = this.getFilaAnterior(coordenadaActual);
                 }
                 coordenadaActual = coordenadaAnterior;
-                while (Coordenada.coordenadaExiste(coordenadaActual)) {   //baja hasta la ultima ficha
+                while (Coordenada.coordenadaExiste(coordenadaActual) && casilleroOcupado(coordenadaActual)) {   //baja hasta la ultima ficha
                     //coordenadaAnterior = coordenadaActual;
                     casilleros.add(this.getCasillero(coordenadaActual));    //almacenamos los casilleros
                     coordenadaActual = this.getFilaSiguiente(coordenadaActual);
@@ -153,12 +154,12 @@ public class Tablero {
                 return new Palabra(casilleros, Orientacion.VERTICAL);
             }
             case HORIZONTAL -> {
-                while (Coordenada.coordenadaExiste(coordenadaActual)) {   //verificamos que la instancia de la coordenada exista
+                while (Coordenada.coordenadaExiste(coordenadaActual) && casilleroOcupado(coordenadaActual)) {   //verificamos que la instancia de la coordenada exista
                     coordenadaAnterior = coordenadaActual;
                     coordenadaActual = this.getColumnaAnterior(coordenadaActual);
                 }
                 coordenadaActual = coordenadaAnterior;
-                while (Coordenada.coordenadaExiste(coordenadaActual)) {   //baja hasta la ultima ficha
+                while (Coordenada.coordenadaExiste(coordenadaActual) && casilleroOcupado(coordenadaActual)) {   //baja hasta la ultima ficha
                     //coordenadaAnterior = coordenadaActual;
                     casilleros.add(this.getCasillero(coordenadaActual));    //almacenamos los casilleros
                     coordenadaActual = this.getColumnaSiguiente(coordenadaActual);
@@ -214,6 +215,59 @@ public class Tablero {
         }
         return nuevaCoordenada;
     }
+
+    public TipoCasillero getTipoCasillero(Coordenada coordenada){
+        return casilleros[coordenada.getValorFila()][coordenada.getValorColumna()].getTipo();
+    }
+
+    public Palabra palabraFormada(List<Casillero> posibleJugada, Orientacion orientacion){
+        for(Casillero casillero : posibleJugada){
+            if(this.casilleroOcupado(casillero.getPosicion())){
+                throw new CasilleroOcupado("No es posible usar un casillero ocupado");
+            }
+        }
+        Coordenada coordenada = posibleJugada.getFirst().getPosicion();
+
+        List<Casillero> casilleros = new ArrayList<>();
+        Coordenada coordenadaActual = coordenada;
+        Coordenada coordenadaAnterior = coordenada; //ultima coordenada que tiene una ficha
+        //TODO: VERIFICAR QUE EL ALGORITMO NO SOLUCIONE EL PROBLEMA DE ENCONTRAR LA ULTIMA PALABRA UTILIZADA
+        //TODO: COPIAR FILA O COLUMNA
+        switch (orientacion) {
+            case VERTICAL -> {
+                while (Coordenada.coordenadaExiste(coordenadaActual) && casilleroOcupado(coordenadaActual)) {   //verificamos que la instancia de la coordenada exista
+                    coordenadaAnterior = coordenadaActual;
+                    coordenadaActual = this.getFilaAnterior(coordenadaActual);
+                }
+                coordenadaActual = coordenadaAnterior;
+                while (Coordenada.coordenadaExiste(coordenadaActual)) {   //baja hasta la ultima ficha
+                    //coordenadaAnterior = coordenadaActual;
+                    casilleros.add(this.getCasillero(coordenadaActual));    //almacenamos los casilleros
+                    coordenadaActual = this.getFilaSiguiente(coordenadaActual);
+                }
+                return new Palabra(casilleros, Orientacion.VERTICAL);
+            }
+            case HORIZONTAL -> {
+                while (Coordenada.coordenadaExiste(coordenadaActual) && casilleroOcupado(coordenadaActual)) {   //verificamos que la instancia de la coordenada exista
+                    coordenadaAnterior = coordenadaActual;
+                    coordenadaActual = this.getColumnaAnterior(coordenadaActual);
+                }
+                coordenadaActual = coordenadaAnterior;
+                while (Coordenada.coordenadaExiste(coordenadaActual)) {   //baja hasta la ultima ficha
+                    //coordenadaAnterior = coordenadaActual;
+                    casilleros.add(this.getCasillero(coordenadaActual));    //almacenamos los casilleros
+                    coordenadaActual = this.getColumnaSiguiente(coordenadaActual);
+                }
+                return new Palabra(casilleros, Orientacion.HORIZONTAL);
+            }
+            default -> {
+                return null;
+            }
+        }
+        return null;
+    }
+
+
 
 
 
