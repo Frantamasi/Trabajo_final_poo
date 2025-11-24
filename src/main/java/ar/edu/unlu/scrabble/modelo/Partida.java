@@ -45,6 +45,7 @@ public class Partida {
         //TODO: Lanzar evento de atril completado
         jugador.completarAtril(BolsaDeFichas.getInstance());
         int puntaje = formadorPalabras.getPuntaje();
+        //TODO: LANZAR EVENTO JUGADOR LANZO TURNO
         jugador.sumarPuntos(puntaje);
 
         manejadorTurno.jugarTurno();
@@ -91,4 +92,6 @@ public class Partida {
     public int verPuntajeJugador(String nombre){
         return  ManejadorJugadores.getInstance().getJugador(nombre).getPuntaje();
     }
+
+
 }
