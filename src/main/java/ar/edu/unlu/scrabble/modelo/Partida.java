@@ -3,6 +3,8 @@ package ar.edu.unlu.scrabble.modelo;
 import ar.edu.unlu.scrabble.Interfaces.ICasillero;
 import ar.edu.unlu.scrabble.Interfaces.IFicha;
 import ar.edu.unlu.scrabble.Interfaces.ITableroPublico;
+import ar.edu.unlu.scrabble.controlador.Observable;
+import ar.edu.unlu.scrabble.controlador.Observador;
 import ar.edu.unlu.scrabble.exception.JugadaInvalida;
 import ar.edu.unlu.scrabble.exception.MaximaCantidadJugadores;
 
@@ -11,8 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Partida {
+public class Partida implements Observable {
     private ManejadorTurno manejadorTurno;
+    private List<Observador> observadores;
 
     public Partida(){
         manejadorTurno = new ManejadorTurno();
@@ -94,4 +97,20 @@ public class Partida {
     }
 
 
+    @Override
+    public void agregarObservador(Observador observador) {
+        observadores.add(observador);
+    }
+
+    @Override
+    public void quitarObservador(Observador observador) {
+        observadores.remove(observador);
+    }
+
+    @Override
+    public void notificarObservadores() {
+        observadores.forEach(observador -> {
+            observador.actualizar();
+        });
+    }
 }
