@@ -18,6 +18,10 @@ public class VistaConsola {
         return sc.nextInt();
     }
 
+    public void mostrarMensaje(String mensaje){
+        System.out.println(mensaje);
+    }
+
     public  void mostrarMenu(){
         System.out.println("\n========================================");
         System.out.println("      S C R A B B L E   J A V A");
