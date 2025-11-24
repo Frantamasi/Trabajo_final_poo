@@ -1,4 +1,4 @@
-package ar.edu.unlu.scrabble.controlador;
+package ar.edu.unlu.scrabble.observer;
 
 public interface Observable {
     void agregarObservador(Observador observador);

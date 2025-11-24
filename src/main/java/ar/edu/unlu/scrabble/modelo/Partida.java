@@ -3,12 +3,11 @@ package ar.edu.unlu.scrabble.modelo;
 import ar.edu.unlu.scrabble.Interfaces.ICasillero;
 import ar.edu.unlu.scrabble.Interfaces.IFicha;
 import ar.edu.unlu.scrabble.Interfaces.ITableroPublico;
-import ar.edu.unlu.scrabble.controlador.Observable;
-import ar.edu.unlu.scrabble.controlador.Observador;
+import ar.edu.unlu.scrabble.observer.Observable;
+import ar.edu.unlu.scrabble.observer.Observador;
 import ar.edu.unlu.scrabble.exception.JugadaInvalida;
 import ar.edu.unlu.scrabble.exception.MaximaCantidadJugadores;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +53,7 @@ public class Partida implements Observable {
         manejadorTurno.jugarTurno();
         if (manejadorTurno.juegoTermino()){
             //TODO: notificar q termino el juego
-
+            notificarObservadores();
         }
     }
 
@@ -62,6 +61,7 @@ public class Partida implements Observable {
         manejadorTurno.pasarTurno();
         if (manejadorTurno.juegoTermino()){
             //TODO: notificar q termino el juego
+            notificarObservadores();
         }
     }
 
@@ -73,6 +73,7 @@ public class Partida implements Observable {
         } catch (RuntimeException e) {
             throw new MaximaCantidadJugadores(e.getMessage());
         }
+        notificarObservadores();
     }
 
     public Map<String,Integer> getResultadoFinal(){

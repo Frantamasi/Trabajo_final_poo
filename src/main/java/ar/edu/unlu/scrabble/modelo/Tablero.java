@@ -265,8 +265,4 @@ public class Tablero implements ITableroPublico {
         }
         return palabra;
     }
-
-
-
-
 }
