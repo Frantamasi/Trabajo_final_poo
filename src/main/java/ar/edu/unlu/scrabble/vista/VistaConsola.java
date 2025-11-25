@@ -2,9 +2,7 @@ package ar.edu.unlu.scrabble.vista;
 
 import ar.edu.unlu.scrabble.Interfaces.ICasillero;
 import ar.edu.unlu.scrabble.Interfaces.IFicha;
-import ar.edu.unlu.scrabble.modelo.Coordenada;
-import ar.edu.unlu.scrabble.modelo.Jugador;
-import ar.edu.unlu.scrabble.modelo.Tablero;
+import ar.edu.unlu.scrabble.modelo.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +12,20 @@ public class VistaConsola {
     private Scanner sc = new Scanner(System.in);
 
 
-    public int obtenerOpcion(){
+    public int obtenerOpcionInt(){
         return sc.nextInt();
+    }
+
+    public String obtenerOpcionString(String mensaje){
+        System.out.println(mensaje);
+        String opcion;
+        while (true){
+            opcion = sc.nextLine();
+            if(!opcion.isEmpty()){
+                break;
+            }
+        }
+        return opcion;
     }
 
     public void mostrarMensaje(String mensaje){
@@ -96,7 +106,7 @@ public class VistaConsola {
     public void mostrarAtril(List<IFicha> atril) {
         System.out.println("\n > TUS FICHAS:");
         System.out.print("   "); // Margen izquierdo
-        if (atril.isEmpty()) {
+        if (atril.size() == 0) {
             System.out.println("(Atril vacío)");
             return;
         }
@@ -165,5 +175,48 @@ public class VistaConsola {
         System.out.println("\n");
     }
 
+    /**
+     * Ciclo interactivo para registrar usuarios antes de iniciar la partida.
+     * Se asegura de cumplir las reglas de mín (2) y máx (4) jugadores.
+     */
+    public List<String> configurarPartida() {
+        System.out.println("\n========================================");
+        System.out.println("      REGISTRO DE JUGADORES");
+        System.out.println("========================================");
+        System.out.println("Nota: Se necesitan entre 2 y 4 jugadores.");
+        List<String> nombresJugadores = new ArrayList<>();
+        int registrados = 0;
+        boolean seguirAgregando = true;
 
+        while (seguirAgregando && registrados < 4) {
+            System.out.println("\n-> Datos del jugador " + (registrados + 1));
+            String nombre = obtenerOpcionString("El nombre NO puede estar vacio!!!");
+
+            if(nombresJugadores.contains(nombre)){
+                System.out.println("Error: ya se encuentra registrado un jugador con el nombre "+nombre);
+            }
+            else{
+               nombresJugadores.add(nombre);
+                System.out.println("Jugador " + nombre + " registrado con exito");
+                registrados++;
+
+                if (registrados >= 2 && registrados < 4) {
+                    seguirAgregando = preguntarSiAgregaOtro();
+                } else if (registrados == 4) {
+                    System.out.println("\n   Se ha alcanzado el maximo de jugadores");
+                }
+            }
+        }
+        System.out.println("\n========================================");
+        System.out.println("   Partida configurada! Iniciando...");
+        System.out.println("========================================\n");
+        return nombresJugadores;
+    }
+
+    private boolean preguntarSiAgregaOtro() {
+        System.out.print("\n¿Desea agregar otro jugador? (S/N): ");
+        String respuesta = sc.next().trim().toUpperCase();
+        sc.nextLine(); // Limpiar el buffer del scanner después del next()
+        return respuesta.equals("S");
+    }
 }

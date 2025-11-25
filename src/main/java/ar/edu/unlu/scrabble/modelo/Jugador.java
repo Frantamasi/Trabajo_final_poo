@@ -14,7 +14,8 @@ public class Jugador {
     public Jugador(String nombre) {
         setNombre(nombre);
         setPuntaje(0);
-        this.atril = new ArrayList<>(atril);
+        BolsaDeFichas fichas = BolsaDeFichas.getInstance();
+        completarAtril(fichas);
     }
     public String getNombre() {
         return nombre;

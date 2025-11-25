@@ -53,6 +53,6 @@ public class Casillero implements ICasillero {
     }
 
     public boolean estaOcupado(){
-        return ficha == null;
+        return ficha != null;
     }
 }

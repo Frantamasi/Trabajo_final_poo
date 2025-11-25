@@ -23,6 +23,10 @@ public class ManejadorJugadores {
         return jugadores.get(nombre);
     }
 
+    public boolean existeJugador(String nombre){
+        return jugadores.containsKey(nombre);
+    }
+
     public void addJugador(Jugador jugador){
         jugadores.put(jugador.getNombre(),jugador);
     }

@@ -11,10 +11,18 @@ public class ManejadorTurno {
     private int turnosPasadosConsecutivos; //encargada de finalizar la partida si se pasa 3 veces seguidas
     private Jugador ultimoJugador;
     private final int JUGADORES_MAX = 4;
-        public ManejadorTurno() {
-            turnosPasadosConsecutivos = 0;
-        }
+    private static ManejadorTurno instancia = null;
 
+    private ManejadorTurno(){
+        turnosPasadosConsecutivos = 0;
+    }
+
+    public static ManejadorTurno getInstance() {
+        if(instancia == null) instancia = new ManejadorTurno();
+        return instancia;
+    }
+
+        //TODO: HACER SINGLETON
         /**
          * al pasar el turno se suma el contador
          *

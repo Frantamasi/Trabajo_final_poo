@@ -1,5 +1,7 @@
 package ar.edu.unlu.scrabble.controlador;
 
+import ar.edu.unlu.scrabble.modelo.ManejadorJugadores;
+import ar.edu.unlu.scrabble.modelo.ManejadorTurno;
 import ar.edu.unlu.scrabble.modelo.Partida;
 import ar.edu.unlu.scrabble.observer.Observable;
 import ar.edu.unlu.scrabble.observer.Observador;
@@ -17,22 +19,19 @@ public class ControladorConsola implements Observador {
     }
 
     public void iniciar(){
+        ManejadorJugadores jugadores = ManejadorJugadores.getInstance();
+        ManejadorTurno turnos = ManejadorTurno.getInstance();
         while (true){
             vista.mostrarMenu();
-            int opcion = vista.obtenerOpcion();
+            int opcion = vista.obtenerOpcionInt();
 
             switch (opcion){
                 case 1:
-
+                    modelo.iniciarPartida(vista.configurarPartida());
+                    vista.mostrarTablero();
+                    vista.mostrarAtril(modelo.verAtrilJugador(turnos.getJugadorTurno().getNombre()));
                     break;
                 case 2:
-
-                    break;
-                case 3:
-
-                    break;
-
-                case 0:
                     vista.mostrarSalida();
                     return;
                 default:

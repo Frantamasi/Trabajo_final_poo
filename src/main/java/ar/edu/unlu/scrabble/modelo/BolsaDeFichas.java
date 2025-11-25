@@ -6,8 +6,6 @@ import java.util.List;
 
 public class BolsaDeFichas {
     private List<Ficha> fichas = new ArrayList<>();
-    private int cantidadFichas;
-
     private static BolsaDeFichas instancia = null;
 
     public static BolsaDeFichas getInstance() {
@@ -34,12 +32,11 @@ public class BolsaDeFichas {
         fichas.add(new Ficha("Y", 4)); fichas.add(new Ficha("W", 4)); fichas.add(new Ficha("Q", 5));
         fichas.add(new Ficha("J", 8)); fichas.add(new Ficha("Ñ", 8)); fichas.add(new Ficha("X", 8));
         fichas.add(new Ficha("K", 8)); fichas.add(new Ficha("Z", 10));
-
         Collections.shuffle(fichas);
     }
 
     public int getCantidadFichas() {
-        return cantidadFichas;
+        return fichas.size();
     }
 
     public boolean esVacia(){

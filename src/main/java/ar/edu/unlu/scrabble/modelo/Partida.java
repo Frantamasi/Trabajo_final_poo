@@ -8,16 +8,17 @@ import ar.edu.unlu.scrabble.observer.Observador;
 import ar.edu.unlu.scrabble.exception.JugadaInvalida;
 import ar.edu.unlu.scrabble.exception.MaximaCantidadJugadores;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Partida implements Observable {
     private ManejadorTurno manejadorTurno;
-    private List<Observador> observadores;
+    private List<Observador> observadores = new ArrayList<>();
 
     public Partida(){
-        manejadorTurno = new ManejadorTurno();
+        manejadorTurno = ManejadorTurno.getInstance();
 
     }
     public void jugarPalabra(Map<Integer,List<Integer>> jugada, Orientacion orientacion){
@@ -97,6 +98,24 @@ public class Partida implements Observable {
         return  ManejadorJugadores.getInstance().getJugador(nombre).getPuntaje();
     }
 
+    public void iniciarPartida(List<String> posiblesJugadoes){
+        posiblesJugadoes.forEach((nombre)->{
+            try{
+                agregarJugador(nombre);
+            } catch (RuntimeException e) {
+                throw new MaximaCantidadJugadores("Ya se alcanzo la maxima cantidad de jugadores");
+            }
+            cargarAtrilesJugadores(nombre);
+        });
+
+    }
+
+    public void cargarAtrilesJugadores(String nombre){
+        ManejadorJugadores jugadores = ManejadorJugadores.getInstance();
+        Jugador jugador = jugadores.getJugador(nombre);
+        BolsaDeFichas fichas = BolsaDeFichas.getInstance();
+        jugador.completarAtril(fichas);
+    }
 
     @Override
     public void agregarObservador(Observador observador) {
