@@ -110,6 +110,40 @@ public class Partida implements Observable {
 
     }
 
+    /**
+     * Determina la orientación basándose en una lista de coordenadas.
+     * @param coordenadas Lista de listas formato [Fila, Columna].
+     * @return Orientacion.HORIZONTAL, Orientacion.VERTICAL o null si es inválido/diagonal.
+     */
+    public Orientacion determinarOrientacion(List<List<Integer>> coordenadas) {
+        if (coordenadas.size() < 2) {    //es solo una letra, por lo cual retornamos una direccion cualquiera
+            return Orientacion.VERTICAL;
+        }
+        int filaReferencia = coordenadas.get(0).get(0);
+        int colReferencia = coordenadas.get(0).get(1);
+        boolean mismaFila = true;
+        boolean mismaColumna = true;
+
+        for (List<Integer> coord : coordenadas) {
+            // Si alguna fila es distinta a la primera, ya no puede ser Horizontal
+            if (coord.get(0) != filaReferencia) {
+                mismaFila = false;
+            }
+            // Si alguna columna es distinta a la primera, ya no puede ser Vertical
+            if (coord.get(1) != colReferencia) {
+                mismaColumna = false;
+            }
+        }
+
+        if (mismaFila) {
+            return Orientacion.HORIZONTAL;
+        } else if (mismaColumna) {
+            return Orientacion.VERTICAL;
+        } else {
+            return null; // Es diagonal o las fichas están dispersas sin línea recta
+        }
+    }
+
     public void cargarAtrilesJugadores(String nombre){
         ManejadorJugadores jugadores = ManejadorJugadores.getInstance();
         Jugador jugador = jugadores.getJugador(nombre);

@@ -2,11 +2,10 @@ package ar.edu.unlu.scrabble.vista;
 
 import ar.edu.unlu.scrabble.Interfaces.ICasillero;
 import ar.edu.unlu.scrabble.Interfaces.IFicha;
+import ar.edu.unlu.scrabble.exception.CoordenadaInvalida;
 import ar.edu.unlu.scrabble.modelo.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class VistaConsola {
     private Scanner sc = new Scanner(System.in);
@@ -106,7 +105,7 @@ public class VistaConsola {
     public void mostrarAtril(List<IFicha> atril) {
         System.out.println("\n > TUS FICHAS:");
         System.out.print("   "); // Margen izquierdo
-        if (atril.size() == 0) {
+        if (atril.isEmpty()) {
             System.out.println("(Atril vacío)");
             return;
         }
@@ -219,4 +218,129 @@ public class VistaConsola {
         sc.nextLine(); // Limpiar el buffer del scanner después del next()
         return respuesta.equals("S");
     }
+    public Map<Integer, List<Integer>> pedirJugada(Jugador jugador, boolean primerTurno) {
+        // 1. CORRECCIÓN: Inicializamos el mapa AFUERA del bucle para no borrar datos previos
+        Map<Integer, List<Integer>> jugada = new HashMap<>();
+        boolean seguirAgregando = true;
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("\n--- ARMAR JUGADA ---");
+        if (primerTurno) {
+            System.out.println("(!) AVISO: Al ser el primer turno, una ficha debe ocupar el centro (7, 7).");
+        }
+
+        mostrarAtrilConIndices(jugador.consultarAtril());
+
+        while (seguirAgregando) {
+            System.out.println("\n> Agregando ficha #" + (jugada.size() + 1));
+
+            int indiceAtril = -1;
+            // Validación de índice del atril
+            while (indiceAtril < 0 || indiceAtril >= jugador.consultarAtril().size() || jugada.containsKey(indiceAtril)) {
+                System.out.print("   Ingresa el NÚMERO (índice) de la ficha a usar: ");
+                indiceAtril = obtenerOpcionInt();
+
+                if (jugada.containsKey(indiceAtril)) {
+                    System.out.println("   ! Ya usaste esa ficha en esta jugada. Elige otra.");
+                } else if (indiceAtril < 0 || indiceAtril >= jugador.consultarAtril().size()) {
+                    System.out.println("   ! Índice inválido.");
+                }
+            }
+
+            System.out.print("   Fila destino (0-14): ");
+            int fila = obtenerOpcionInt();
+
+            System.out.print("   Columna destino (0-14): ");
+            int col = obtenerOpcionInt();
+
+            // Guardamos como lista para mantener compatibilidad con tu retorno
+            List<Integer> valoresRaw = new ArrayList<>();
+            valoresRaw.add(fila);
+            valoresRaw.add(col);
+
+            jugada.put(indiceAtril, valoresRaw);
+            System.out.println("   ✓ Ficha agregada temporalmente.");
+
+            // Lógica de continuar o terminar
+            if (jugada.size() < jugador.consultarAtril().size()) {
+                System.out.print("\n¿Agregar otra letra a esta palabra? (S/N): ");
+                String respuesta = scanner.next().toUpperCase();
+                scanner.nextLine(); // Limpiar buffer
+
+                if (respuesta.equals("N")) {
+                    if (primerTurno) {
+                        // AQUÍ LLAMAMOS A LA NUEVA VALIDACIÓN
+                        if (validarCentroCubierto(jugada)) {
+                            seguirAgregando = false;
+                        } else {
+                            System.out.println("\n   (!) REGLA: Primer turno. Alguna ficha debe estar en el centro (7, 7).");
+                            System.out.println("   Por favor agrega la ficha faltante.");
+                        }
+                    } else {
+                        seguirAgregando = false;
+                    }
+                }
+            } else {
+                // Se acabaron las fichas
+                if (primerTurno && !validarCentroCubierto(jugada)) {
+                    System.out.println("\n   (!) ERROR CRÍTICO: Usaste todas tus fichas y no tocaste el centro.");
+                    return new HashMap<>(); // Reiniciar turno
+                }
+                System.out.println("   ! Has usado todas tus fichas.");
+                seguirAgregando = false;
+            }
+        }
+
+        return jugada;
+    }
+
+    /**
+     * Valida utilizando la clase Coordenada del modelo.
+     */
+    private boolean validarCentroCubierto(Map<Integer, List<Integer>> jugada) {
+        for (List<Integer> parOrdenado : jugada.values()) {
+            try {
+                // Instanciamos tu clase Coordenada.
+                // Si fila o columna están mal, el constructor lanzará excepción.
+                Coordenada coord = new Coordenada(parOrdenado.get(0), parOrdenado.get(1));
+
+                // Usamos tus getters para validar
+                if (coord.getValorFila() == 7 && coord.getValorColumna() == 7) {
+                    return true;
+                }
+            } catch (CoordenadaInvalida e) {
+                // Este catch atrapa si por error llegaron números fuera de 0-14
+                System.out.println("Error interno: " + e.getMessage());
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Muestra las fichas del jugador con un índice numérico arriba.
+     * Útil para cuando el jugador debe elegir una ficha por su posición (0, 1, 2...).
+     * * @param atril Lista de fichas del jugador
+     */
+    public void mostrarAtrilConIndices(List<IFicha> atril) {
+        System.out.println("\n > TUS FICHAS:");
+
+        if (atril.isEmpty()) {
+            System.out.println("   (Atril vacío)");
+            return;
+        }
+
+        System.out.print("   "); // Margen izquierdo
+        for (int i = 0; i < atril.size(); i++) {    //indices
+            System.out.printf("     %d      ", i);
+        }
+        System.out.println(); // Salto de línea
+        System.out.print("   ");
+        for (IFicha ficha : atril) {
+            String letra = ficha.getLetra();
+            int puntos = ficha.getPuntaje();
+            System.out.printf("[ %s : %-2d ]  ", letra, puntos);
+        }
+        System.out.println("\n");
+    }
+
 }
